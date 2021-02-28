@@ -1,6 +1,6 @@
 # todo.rs
 
-[![Rust](https://github.com/thinegen/todo-rs/actions/workflows/rust.yml/badge.svg)](https://github.com/thinegen/todo-rs/actions/workflows/rust.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests & Checks](https://github.com/thinegen/todo-rs/actions/workflows/checks.yml/badge.svg)](https://github.com/thinegen/todo-rs/actions/workflows/checks.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A Todo txt frontend, written in Rust.
 
