@@ -40,7 +40,7 @@ pub fn get_current_id(id_file_path: &str) -> Result<usize, std::io::Error> {
 
     let current_id = buffer.parse::<usize>().unwrap_or(0);
 
-    write_id_to_id_file(current_id +1, id_file)?;
+    write_id_to_id_file(current_id + 1, id_file)?;
 
     Ok(current_id)
 }
