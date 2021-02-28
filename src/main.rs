@@ -208,7 +208,7 @@ fn print_help() {
     println!(
         r#"usage:
 t new [Prio] <description>
-t set <id> (prio|desc|proj|cat|est|act|stat) <value>
+t set <id> (prio|desc|proj|cat|est|act|stat|color) <value>
 t rm  <id>|all
 t ls [searchterm]
 t clean # resets the ids
