@@ -199,6 +199,13 @@ impl Ord for Todo {
         if self.id == other.id {
             return Ordering::Equal;
         }
+
+        if self.status == TodoStatus::Done && other.status != TodoStatus::Done {
+            return Ordering::Greater;
+        } else if self.status != TodoStatus::Done && other.status == TodoStatus::Done {
+            return Ordering::Less;
+        }
+
         if self.priority == other.priority {
             return other.status.cmp(&self.status);
         } else {
