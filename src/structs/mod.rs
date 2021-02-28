@@ -207,9 +207,9 @@ impl Ord for Todo {
         }
 
         if self.priority == other.priority {
-            return other.status.cmp(&self.status);
+            other.status.cmp(&self.status)
         } else {
-            return other.priority.cmp(&self.priority);
+            other.priority.cmp(&self.priority)
         }
     }
 }
@@ -249,7 +249,7 @@ fn duration_to_human_string(d: Duration) -> String {
 
 impl Todo {
     pub fn get_id(&self) -> usize {
-        return self.id;
+        self.id
     }
     pub fn set_id(&mut self, id: usize) {
         self.id = id;
@@ -261,7 +261,7 @@ impl Todo {
     }
 
     pub fn get_priority(&self) -> isize {
-        return self.priority;
+    self.priority
     }
     #[allow(dead_code)]
     pub fn set_priority(&mut self, priority: isize) {
@@ -274,7 +274,7 @@ impl Todo {
 
     #[allow(dead_code)]
     pub fn get_description(&mut self) -> String {
-        return self.description.clone();
+        self.description.clone()
     }
     pub fn set_description(&mut self, description: &str) {
         self.description = parse_string(description);
@@ -282,7 +282,7 @@ impl Todo {
 
     #[allow(dead_code)]
     pub fn get_projects(&self) -> String {
-        return self.projects.clone();
+        self.projects.clone()
     }
     pub fn set_projects(&mut self, projects: &str) {
         self.projects = parse_string(projects);
@@ -290,14 +290,14 @@ impl Todo {
 
     #[allow(dead_code)]
     pub fn get_categories(&self) -> String {
-        return self.categories.clone();
+    self.categories.clone()
     }
     pub fn set_categories(&mut self, categories: &str) {
         self.categories = parse_string(categories);
     }
 
     pub fn get_time_estimated(&self) -> Option<Duration> {
-        return self.time_estimated;
+        self.time_estimated
     }
     #[allow(dead_code)]
     pub fn set_time_estimated(&mut self, time_estimated: Option<Duration>) {
@@ -313,7 +313,7 @@ impl Todo {
 
     #[allow(dead_code)]
     pub fn get_time_actual(&self) -> Option<Duration> {
-        return self.time_actual;
+        self.time_actual
     }
     #[allow(dead_code)]
     pub fn set_time_actual(&mut self, time_actual: Option<Duration>) {
@@ -329,7 +329,7 @@ impl Todo {
 
     #[allow(dead_code)]
     pub fn get_status(&self) -> TodoStatus {
-        return self.status;
+        self.status
     }
     #[allow(dead_code)]
     pub fn set_status(&mut self, status: TodoStatus) {
@@ -339,7 +339,7 @@ impl Todo {
     pub fn set_status_from_string(&mut self, status: &str) -> Result<TodoStatus, ParseTodoError> {
         self.status = status.parse()?;
 
-        return Ok(self.get_status());
+        Ok(self.get_status())
     }
 
     pub fn set_color(&mut self, s: &str) {

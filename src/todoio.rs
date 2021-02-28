@@ -6,19 +6,19 @@ use super::structs::*;
 fn open_file(open_option_string: &str, path: &str) -> Result<File, std::io::Error> {
     let mut oo = OpenOptions::new();
 
-    if open_option_string.contains("r") {
+    if open_option_string.contains('r') {
         oo.read(true);
     }
-    if open_option_string.contains("w") {
+    if open_option_string.contains('w') {
         oo.write(true);
     }
-    if open_option_string.contains("a") {
+    if open_option_string.contains('a') {
         oo.append(true);
     }
-    if open_option_string.contains("c") {
+    if open_option_string.contains('c') {
         oo.create(true);
     }
-    if open_option_string.contains("t") {
+    if open_option_string.contains('t') {
         oo.truncate(true);
     }
 
@@ -27,7 +27,7 @@ fn open_file(open_option_string: &str, path: &str) -> Result<File, std::io::Erro
 
 pub fn write_id_to_id_file(id: usize, mut id_file: File) -> Result<(), std::io::Error> {
     id_file.seek(SeekFrom::Start(0))?;
-    id_file.write((id + 1).to_string().as_bytes())?;
+    id_file.write_all((id + 1).to_string().as_bytes())?;
 
     Ok(())
 }
@@ -38,10 +38,7 @@ pub fn get_current_id(id_file_path: &str) -> Result<usize, std::io::Error> {
     let mut buffer = String::new();
     id_file.read_to_string(&mut buffer).unwrap();
 
-    let current_id = match buffer.parse::<usize>() {
-        Ok(v) => v,
-        Err(_) => 0,
-    };
+    let current_id = buffer.parse::<usize>().unwrap_or(0);
 
     write_id_to_id_file(current_id, id_file)?;
 
@@ -84,7 +81,7 @@ pub fn get_all_todos(todo_path: &str) -> Result<Vec<Todo>, TodoIOError> {
 pub fn write_to_file(s: &str, path: &str) -> Result<(), std::io::Error> {
     let mut file = open_file("ac", path)?;
 
-    file.write(s.as_bytes())?;
+    file.write_all(s.as_bytes())?;
 
     Ok(())
 }

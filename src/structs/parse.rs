@@ -51,21 +51,22 @@ impl FromStr for Todo {
     type Err = ParseTodoError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let split: Vec<&str> = s.split("\t").collect();
+        let split: Vec<&str> = s.split('\t').collect();
         if split.len() != 9 {
             return Err(ParseTodoError::new("Not seven fields long"));
         }
 
-        let mut new_todo = Todo::default();
-        new_todo.id = parse_usize(split[0])?;
-        new_todo.priority = parse_isize(split[1])?;
-        new_todo.description = parse_string(split[2]);
-        new_todo.projects = parse_string(split[3]);
-        new_todo.categories = parse_string(split[4]);
-        new_todo.time_estimated = parse_duration_result(split[5])?;
-        new_todo.time_actual = parse_duration_result(split[6])?;
-        new_todo.status = split[7].parse()?;
-        new_todo.color = string_to_color_or_white(split[8]);
+        let new_todo = Todo {
+            id: parse_usize(split[0])?,
+            priority: parse_isize(split[1])?,
+            description: parse_string(split[2]),
+            projects: parse_string(split[3]),
+            categories: parse_string(split[4]),
+            time_estimated: parse_duration_result(split[5])?,
+            time_actual: parse_duration_result(split[6])?,
+            status: split[7].parse()?,
+            color: string_to_color_or_white(split[8]),
+        };
         Ok(new_todo)
     }
 }

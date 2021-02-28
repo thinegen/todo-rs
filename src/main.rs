@@ -26,7 +26,7 @@ fn add_new_todo(args: Vec<String>, id_file_path: &str, todo_file_path: &str) {
 
     let mut new_todo = Todo::new_with_id(current_id);
     if args.len() > 3 {
-        if let Ok(_) = new_todo.set_priority_from_string(&args[2]) {
+        if new_todo.set_priority_from_string(&args[2]).is_ok() {
             new_todo.set_description(&args[3..].join(" "));
         } else {
             new_todo.set_description(&args[2..].join(" "));
@@ -98,25 +98,13 @@ fn set_todo(args: Vec<String>, todo_file_path: &str) {
     for todo in todos.iter_mut() {
         if todo.get_id() == edit_id {
             match &args[3][..] {
-                "prio" => match todo.set_priority_from_string(&args[4]) {
-                    Err(err) => println!("Error setting priority: {}", err),
-                    Ok(_) => (),
-                },
+                "prio" => if let Err(err) = todo.set_priority_from_string(&args[4]) { println!("Error setting priority: {}", err) },
                 "desc" => todo.set_description(&args[4]),
                 "proj" => todo.set_projects(&args[4]),
                 "cat" => todo.set_categories(&args[4]),
-                "est" => match todo.set_time_estimated_from_string(&args[4]) {
-                    Err(err) => println!("Error setting time estimated: {}", err),
-                    Ok(_) => (),
-                },
-                "act" => match todo.set_time_actual_from_string(&args[4]) {
-                    Err(err) => println!("Error setting time actual: {}", err),
-                    Ok(_) => (),
-                },
-                "stat" => match todo.set_status_from_string(&args[4]) {
-                    Err(err) => println!("Error setting status: {}", err),
-                    Ok(_) => (),
-                },
+                "est" => if let Err(err) = todo.set_time_estimated_from_string(&args[4]) { println!("Error setting time estimated: {}", err) },
+                "act" => if let Err(err) = todo.set_time_actual_from_string(&args[4]) { println!("Error setting time actual: {}", err) },
+                "stat" => if let Err(err) = todo.set_status_from_string(&args[4]) { println!("Error setting status: {}", err) },
                 "color" => todo.set_color(&args[4]),
                 &_ => {
                     println!("No such attribute: {}", args[3]);
