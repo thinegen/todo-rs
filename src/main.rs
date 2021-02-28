@@ -1,7 +1,7 @@
 use std::env;
+use std::io::ErrorKind;
 use std::io::Write;
 use tabwriter::TabWriter;
-use std::io::ErrorKind;
 
 mod helper;
 mod structs;
@@ -291,12 +291,12 @@ fn main() {
 
     let todo_dir = ".todo";
 
-if let Err(err) = std::fs::create_dir([user_home_dir, todo_dir].join("/")){
-    if err.kind() != ErrorKind::AlreadyExists {
-        println!("Error. Todo directory could not be created: {}", err);
-        return;
+    if let Err(err) = std::fs::create_dir([user_home_dir, todo_dir].join("/")) {
+        if err.kind() != ErrorKind::AlreadyExists {
+            println!("Error. Todo directory could not be created: {}", err);
+            return;
+        }
     }
-}
 
     let todo_file_path = [user_home_dir, todo_dir, "todo.txt"].join("/");
     let id_file_path = [user_home_dir, todo_dir, "id.txt"].join("/");
