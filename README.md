@@ -10,7 +10,7 @@ It still has some quirks, so don't hesitate to open an issue if you find anythin
 
 ```
 t new [priority] <description>
-t set <id> (prio|desc|proj|cat|est|act|stat|color) <value>
+t set (prio|desc|proj|cat|est|act|stat|color) <id> <value>
 t rm  <id>|all
 t do  <id>
 t ls [searchterm]

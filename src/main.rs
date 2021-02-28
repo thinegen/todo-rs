@@ -72,7 +72,7 @@ fn list_all_todos(args: Vec<String>, todo_file_path: &str) {
 }
 
 fn set_todo(args: Vec<String>, todo_file_path: &str) {
-    let edit_id = match args[2].parse::<usize>() {
+    let edit_id = match args[3].parse::<usize>() {
         Ok(v) => v,
         Err(err) => {
             println!("Error: {}", err);
@@ -97,7 +97,7 @@ fn set_todo(args: Vec<String>, todo_file_path: &str) {
     }
     for todo in todos.iter_mut() {
         if todo.get_id() == edit_id {
-            match &args[3][..] {
+            match &args[2][..] {
                 "prio" => {
                     if let Err(err) = todo.set_priority_from_string(&args[4]) {
                         println!("Error setting priority: {}", err)
@@ -199,6 +199,7 @@ fn clean(todo_file_path: &str, id_file: &str) {
     for todo in todos.iter_mut() {
         todo.set_id(new_id);
         new_id += 1;
+
         if let Err(err) = write_to_file(&todo.to_file(), todo_file_path) {
             println!("Failed: {}", err);
         }
@@ -206,7 +207,9 @@ fn clean(todo_file_path: &str, id_file: &str) {
     }
     tw.flush().unwrap();
 
-    let _ = set_current_id(new_id, id_file);
+    if let Err(err) = set_current_id(new_id, id_file) {
+        println!("Error resetting ID: {}", err);
+    }
 }
 
 fn do_task(args: Vec<String>, todo_file_path: &str) {
@@ -249,7 +252,7 @@ fn print_help() {
     println!(
         r#"usage:
 t new [Prio] <description>
-t set <id> (prio|desc|proj|cat|est|act|stat|color) <value>
+t set (prio|desc|proj|cat|est|act|stat|color) <id> <value>
 t do  <id>
 t rm  <id>|all
 t ls [searchterm]
