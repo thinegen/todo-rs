@@ -1,13 +1,14 @@
-.PHONY: all install clean uninstall
+.PHONY: debug release clean
 
-all:
+
+debug:
+	cargo fmt --all --
+	cargo build
+	cargo test
+	cargo clippy --all-targets --all-features -- -D warnings
+
+release:
 	cargo build --release
-
-install: all
-	ln -s target/release/todo.rs /usr/bin/todo.rs
-
-uninstall:
-	rm /usr/bin/todo-rs
 
 clean:
 	rm -rf target
