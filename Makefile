@@ -7,7 +7,7 @@ debug:
 	cargo test
 	cargo clippy --all-targets --all-features -- -D warnings
 
-release:
+release: debug
 	cargo build --release
 
 clean:
