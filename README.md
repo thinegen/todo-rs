@@ -24,3 +24,8 @@ Open, Backlog, Next, Planned, Doing, Review, Done
 
 Colors:
 Black, Red, Green, Yellow, Blue, Purple, Cyan, White
+
+### Todos
+
+- Fix those many many writes
+- alias some stuff (e.g. ```t pri 1 5```)
