@@ -27,7 +27,7 @@ fn open_file(open_option_string: &str, path: &str) -> Result<File, std::io::Erro
 
 pub fn write_id_to_id_file(id: usize, mut id_file: File) -> Result<(), std::io::Error> {
     id_file.seek(SeekFrom::Start(0))?;
-    id_file.write_all((id + 1).to_string().as_bytes())?;
+    id_file.write_all(id.to_string().as_bytes())?;
 
     Ok(())
 }
@@ -40,13 +40,14 @@ pub fn get_current_id(id_file_path: &str) -> Result<usize, std::io::Error> {
 
     let current_id = buffer.parse::<usize>().unwrap_or(0);
 
-    write_id_to_id_file(current_id, id_file)?;
+    write_id_to_id_file(current_id +1, id_file)?;
 
     Ok(current_id)
 }
 
 pub fn set_current_id(new_id: usize, id_file_path: &str) -> Result<(), std::io::Error> {
-    let id_file = open_file("rwc", id_file_path)?;
+    let id_file = open_file("wc", id_file_path)?;
+
     write_id_to_id_file(new_id, id_file)?;
 
     Ok(())
