@@ -204,11 +204,48 @@ fn clean(todo_file_path: &str, id_file: &str) {
     let _ = set_current_id(new_id, id_file);
 }
 
+fn do_task(args: Vec<String>, todo_file_path: &str) {
+    let edit_id = match args[2].parse::<usize>() {
+        Ok(v) => v,
+        Err(err) => {
+            println!("Error: {}", err);
+            print_help();
+            return;
+        }
+    };
+
+    let mut todos = match get_all_todos(todo_file_path) {
+        Ok(v) => v,
+        Err(err) => {
+            println!("Reading Todos failed: {}", err);
+            return;
+        }
+    };
+
+    let mut tw = TabWriter::new(std::io::stdout()).padding(2);
+    tw.write_all(print_todo_header().as_bytes()).unwrap();
+
+    if let Err(err) = truncate_file(todo_file_path) {
+        println!("Writing Todo file failed: {}", err);
+    }
+    for todo in todos.iter_mut() {
+        if todo.get_id() == edit_id {
+            todo.set_status(TodoStatus::Done);
+            tw.write_all(format!("{}\n", todo).as_bytes()).unwrap();
+        }
+        if let Err(err) = write_to_file(&todo.to_file(), todo_file_path) {
+            println!("Failed: {}", err);
+        }
+    }
+    tw.flush().unwrap();
+}
+
 fn print_help() {
     println!(
         r#"usage:
 t new [Prio] <description>
 t set <id> (prio|desc|proj|cat|est|act|stat|color) <value>
+t do  <id>
 t rm  <id>|all
 t ls [searchterm]
 t clean # resets the ids
@@ -253,7 +290,7 @@ fn main() {
         "new" => add_new_todo(args, id_file_path, todo_file_path),
         "set" => set_todo(args, todo_file_path),
         "rm" => rm_todo(args, todo_file_path, id_file_path),
-        "do" => println!("do"),
+        "do" => do_task(args, todo_file_path),
         "clean" => clean(todo_file_path, id_file_path),
         _ => print_help(),
     }
