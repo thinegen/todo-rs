@@ -48,7 +48,7 @@ pub fn get_current_id(id_file_path: &str) -> Result<usize, std::io::Error> {
 }
 
 pub fn set_current_id(new_id: usize, id_file_path: &str) -> Result<(), std::io::Error> {
-    let id_file = open_file("wc", id_file_path)?;
+    let id_file = open_file("wct", id_file_path)?;
 
     write_id_to_id_file(new_id, id_file)?;
 
