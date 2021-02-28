@@ -9,7 +9,7 @@ fn open_file(open_option_string: &str, path: &str) -> Result<File, std::io::Erro
     if open_option_string.contains('r') {
         oo.read(true);
     }
-    if open_option_string.contains("w") {
+    if open_option_string.contains('w') {
         oo.write(true);
     }
     if open_option_string.contains('a') {
