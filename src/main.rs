@@ -1,6 +1,7 @@
 use std::env;
 use std::io::Write;
 use tabwriter::TabWriter;
+use std::io::ErrorKind;
 
 mod helper;
 mod structs;
@@ -273,8 +274,32 @@ White
 }
 
 fn main() {
-    let todo_file_path = "/home/thinegen/.todo/todo.txt";
-    let id_file_path = "/home/thinegen/.todo/id.txt";
+    let user_home_dir = match home::home_dir() {
+        Some(v) => v,
+        None => {
+            println!("Error. No home dir found. Exiting");
+            return;
+        }
+    };
+    let user_home_dir = match user_home_dir.to_str() {
+        Some(v) => v,
+        None => {
+            println!("Error. No home dir found. Exiting");
+            return;
+        }
+    };
+
+    let todo_dir = ".todo";
+
+if let Err(err) = std::fs::create_dir([user_home_dir, todo_dir].join("/")){
+    if err.kind() != ErrorKind::AlreadyExists {
+        println!("Error. Todo directory could not be created: {}", err);
+        return;
+    }
+}
+
+    let todo_file_path = [user_home_dir, todo_dir, "todo.txt"].join("/");
+    let id_file_path = [user_home_dir, todo_dir, "id.txt"].join("/");
 
     let args: Vec<String> = env::args().collect();
 
@@ -286,12 +311,12 @@ fn main() {
     }
 
     match &first_arg[..] {
-        "ls" => list_all_todos(args, todo_file_path),
-        "new" => add_new_todo(args, id_file_path, todo_file_path),
-        "set" => set_todo(args, todo_file_path),
-        "rm" => rm_todo(args, todo_file_path, id_file_path),
-        "do" => do_task(args, todo_file_path),
-        "clean" => clean(todo_file_path, id_file_path),
+        "ls" => list_all_todos(args, &todo_file_path),
+        "new" => add_new_todo(args, &id_file_path, &todo_file_path),
+        "set" => set_todo(args, &todo_file_path),
+        "rm" => rm_todo(args, &todo_file_path, &id_file_path),
+        "do" => do_task(args, &todo_file_path),
+        "clean" => clean(&todo_file_path, &id_file_path),
         _ => print_help(),
     }
 }
