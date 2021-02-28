@@ -261,7 +261,7 @@ impl Todo {
     }
 
     pub fn get_priority(&self) -> isize {
-    self.priority
+        self.priority
     }
     #[allow(dead_code)]
     pub fn set_priority(&mut self, priority: isize) {
@@ -290,7 +290,7 @@ impl Todo {
 
     #[allow(dead_code)]
     pub fn get_categories(&self) -> String {
-    self.categories.clone()
+        self.categories.clone()
     }
     pub fn set_categories(&mut self, categories: &str) {
         self.categories = parse_string(categories);

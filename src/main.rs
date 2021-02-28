@@ -98,13 +98,29 @@ fn set_todo(args: Vec<String>, todo_file_path: &str) {
     for todo in todos.iter_mut() {
         if todo.get_id() == edit_id {
             match &args[3][..] {
-                "prio" => if let Err(err) = todo.set_priority_from_string(&args[4]) { println!("Error setting priority: {}", err) },
+                "prio" => {
+                    if let Err(err) = todo.set_priority_from_string(&args[4]) {
+                        println!("Error setting priority: {}", err)
+                    }
+                }
                 "desc" => todo.set_description(&args[4]),
                 "proj" => todo.set_projects(&args[4]),
                 "cat" => todo.set_categories(&args[4]),
-                "est" => if let Err(err) = todo.set_time_estimated_from_string(&args[4]) { println!("Error setting time estimated: {}", err) },
-                "act" => if let Err(err) = todo.set_time_actual_from_string(&args[4]) { println!("Error setting time actual: {}", err) },
-                "stat" => if let Err(err) = todo.set_status_from_string(&args[4]) { println!("Error setting status: {}", err) },
+                "est" => {
+                    if let Err(err) = todo.set_time_estimated_from_string(&args[4]) {
+                        println!("Error setting time estimated: {}", err)
+                    }
+                }
+                "act" => {
+                    if let Err(err) = todo.set_time_actual_from_string(&args[4]) {
+                        println!("Error setting time actual: {}", err)
+                    }
+                }
+                "stat" => {
+                    if let Err(err) = todo.set_status_from_string(&args[4]) {
+                        println!("Error setting status: {}", err)
+                    }
+                }
                 "color" => todo.set_color(&args[4]),
                 &_ => {
                     println!("No such attribute: {}", args[3]);
