@@ -38,7 +38,9 @@ pub fn get_current_id(id_file_path: &str) -> Result<usize, std::io::Error> {
     let mut buffer = String::new();
     id_file.read_to_string(&mut buffer).unwrap();
 
-    let current_id = buffer.parse::<usize>().unwrap_or(0);
+    let buffer = buffer.trim();
+
+    let current_id = buffer.parse::<usize>().unwrap();
 
     write_id_to_id_file(current_id + 1, id_file)?;
 
