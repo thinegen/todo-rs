@@ -42,7 +42,7 @@ fn add_new_todo(args: Vec<String>, id_file_path: &str, todo_file_path: &str) {
     }
 }
 
-fn list_all_todos(args: Vec<String>, todo_file_path: &str) {
+fn list_all_todos(args: Vec<String>, show_done: bool, todo_file_path: &str) {
     let mut todos = match get_all_todos(todo_file_path) {
         Ok(v) => v,
         Err(err) => {
@@ -60,7 +60,7 @@ fn list_all_todos(args: Vec<String>, todo_file_path: &str) {
     let mut tw = TabWriter::new(std::io::stdout()).padding(2);
     tw.write_all(print_todo_header().as_bytes()).unwrap();
     for todo in todos.iter() {
-        if todo.filter(&search_string) {
+        if (!todo.done() || todo.done() == show_done) && todo.filter(&search_string) {
             tw.write_all(format!("{}\n", todo).as_bytes()).unwrap();
         }
     }
@@ -256,7 +256,8 @@ t new [Prio] <description>
 t set (prio|desc|proj|cat|est|act|stat|color) <id> <value>
 t do  <id>
 t rm  <id>|all
-t ls [searchterm]
+t ls  [searchterm]
+t lsa [searchterm]
 t clean # resets the ids
 
 Possible status:
@@ -319,7 +320,8 @@ fn main() {
     }
 
     match &first_arg[..] {
-        "ls" => list_all_todos(args, &todo_file_path),
+        "ls" => list_all_todos(args, false, &todo_file_path),
+        "lsa" => list_all_todos(args, true, &todo_file_path),
         "new" => add_new_todo(args, &id_file_path, &todo_file_path),
         "set" => set_todo(args, &todo_file_path),
         "rm" => rm_todo(args, &todo_file_path, &id_file_path),

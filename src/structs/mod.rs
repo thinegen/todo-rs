@@ -337,6 +337,9 @@ impl Todo {
     pub fn get_status(&self) -> TodoStatus {
         self.status
     }
+    pub fn done(&self) -> bool {
+        self.status == TodoStatus::Done
+    }
     #[allow(dead_code)]
     pub fn set_status(&mut self, status: TodoStatus) {
         self.status = status;

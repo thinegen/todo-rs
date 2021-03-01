@@ -13,7 +13,8 @@ t new [priority] <description>
 t set (prio|desc|proj|cat|est|act|stat|color) <id> <value>
 t rm  <id>|all
 t do  <id>
-t ls [searchterm]
+t ls  [searchterm]
+t lsa [searchterm]
 t clean
 ```
 
