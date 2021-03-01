@@ -178,7 +178,7 @@ impl fmt::Display for Todo {
         };
 
         let print_color = if self.status == TodoStatus::Done {
-            Color::White
+            Color::Fixed(8)
         } else {
             self.color
         };
@@ -213,6 +213,8 @@ impl Ord for Todo {
             return Ordering::Greater;
         } else if self.status != TodoStatus::Done && other.status == TodoStatus::Done {
             return Ordering::Less;
+        } else if self.status == TodoStatus::Done && other.status == TodoStatus::Done {
+            return self.projects.cmp(&other.projects);
         }
 
         if self.priority == other.priority {
