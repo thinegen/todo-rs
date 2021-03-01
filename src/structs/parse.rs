@@ -53,7 +53,7 @@ impl FromStr for Todo {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let split: Vec<&str> = s.split('\t').collect();
         if split.len() != 9 {
-            return Err(ParseTodoError::new("Not seven fields long"));
+            return Err(ParseTodoError::new("Not nine fields long"));
         }
 
         let new_todo = Todo {
