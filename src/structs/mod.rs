@@ -142,6 +142,9 @@ impl Todo {
         }
         false
     }
+    pub fn set_deleted(&mut self) {
+        self.status = TodoStatus::Deleted;
+    }
 }
 
 impl fmt::Display for Todo {
@@ -341,8 +344,13 @@ impl Todo {
         self.status == TodoStatus::Done
     }
     #[allow(dead_code)]
-    pub fn set_status(&mut self, status: TodoStatus) {
+    pub fn set_status(&mut self, status: TodoStatus) -> Result<(), ParseTodoError> {
+        if status == TodoStatus::Deleted {
+            return Err(ParseTodoError::new("Not allowed to set Deleted"));
+        }
         self.status = status;
+
+        Ok(())
     }
     #[allow(dead_code)]
     pub fn set_status_from_string(&mut self, status: &str) -> Result<TodoStatus, ParseTodoError> {

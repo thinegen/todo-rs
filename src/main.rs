@@ -171,7 +171,7 @@ fn rm_todo(args: Vec<String>, todo_file_path: &str, id_file_path: &str) {
                 println!("Failed: {}", err);
             }
         } else {
-            todo.set_status(TodoStatus::Deleted);
+            todo.set_deleted();
             tw.write_all(format!("{}\n", todo).as_bytes()).unwrap();
         }
     }
@@ -239,7 +239,7 @@ fn do_task(args: Vec<String>, todo_file_path: &str) {
     }
     for todo in todos.iter_mut() {
         if todo.get_id() == edit_id {
-            todo.set_status(TodoStatus::Done);
+            todo.set_status(TodoStatus::Done).unwrap();
             tw.write_all(format!("{}\n", todo).as_bytes()).unwrap();
         }
         if let Err(err) = write_to_file(&todo.to_file(), todo_file_path) {
