@@ -174,10 +174,16 @@ impl fmt::Display for Todo {
             x
         };
 
+        let print_color = if self.status == TodoStatus::Done {
+            Color::White
+        } else {
+            self.color
+        };
+
         write!(
             f,
             "{}",
-            self.color.paint(format!(
+            print_color.paint(format!(
                 "{}\t{:02}\t{}\t{}\t{}\t{}\t{}\t{}\t{}{}",
                 self.id,
                 self.status,
@@ -342,7 +348,16 @@ impl Todo {
         Ok(self.get_status())
     }
 
-    pub fn set_color(&mut self, s: &str) {
+    #[allow(dead_code)]
+    pub fn get_color(&mut self) -> Color {
+        self.color
+    }
+    #[allow(dead_code)]
+    pub fn set_color(&mut self, c: Color) {
+        self.color = c;
+    }
+    #[allow(dead_code)]
+    pub fn set_color_from_string(&mut self, s: &str) {
         self.color = string_to_color_or_white(s);
     }
 }

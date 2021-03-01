@@ -118,7 +118,7 @@ fn set_todo(args: Vec<String>, todo_file_path: &str) {
                         println!("Error setting status: {}", err)
                     }
                 }
-                "color" => todo.set_color(&args[4]),
+                "color" => todo.set_color_from_string(&args[4]),
                 &_ => {
                     println!("No such attribute: {}", args[3]);
                 }
