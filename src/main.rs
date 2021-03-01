@@ -25,12 +25,8 @@ fn add_new_todo(args: Vec<String>, id_file_path: &str, todo_file_path: &str) {
     };
 
     let mut new_todo = Todo::new_with_id(current_id);
-    if args.len() > 3 {
-        if new_todo.set_priority_from_string(&args[2]).is_ok() {
-            new_todo.set_description(&args[3..].join(" "));
-        } else {
-            new_todo.set_description(&args[2..].join(" "));
-        }
+    if args.len() > 3 && new_todo.set_priority_from_string(&args[2]).is_ok() {
+        new_todo.set_description(&args[3..].join(" "));
     } else {
         new_todo.set_description(&args[2..].join(" "));
     }
@@ -94,6 +90,7 @@ fn set_todo(args: Vec<String>, todo_file_path: &str) {
 
     if let Err(err) = truncate_file(todo_file_path) {
         println!("Writing Todo file failed: {}", err);
+        return;
     }
     for todo in todos.iter_mut() {
         if todo.get_id() == edit_id {
@@ -139,6 +136,7 @@ fn rm_todo(args: Vec<String>, todo_file_path: &str, id_file_path: &str) {
     if args[2] == "all" {
         if let Err(err) = truncate_file(todo_file_path) {
             println!("Writing Todo file failed: {}", err);
+            return;
         }
         let _ = set_current_id(0, id_file_path);
         return;
@@ -165,6 +163,7 @@ fn rm_todo(args: Vec<String>, todo_file_path: &str, id_file_path: &str) {
 
     if let Err(err) = truncate_file(todo_file_path) {
         println!("Writing Todo file failed: {}", err);
+        return;
     }
     for todo in todos.iter_mut() {
         if todo.get_id() != edit_id {
@@ -193,6 +192,7 @@ fn clean(todo_file_path: &str, id_file: &str) {
 
     if let Err(err) = truncate_file(todo_file_path) {
         println!("Writing Todo file failed: {}", err);
+        return;
     }
 
     let mut new_id: usize = 0;
@@ -235,6 +235,7 @@ fn do_task(args: Vec<String>, todo_file_path: &str) {
 
     if let Err(err) = truncate_file(todo_file_path) {
         println!("Writing Todo file failed: {}", err);
+        return;
     }
     for todo in todos.iter_mut() {
         if todo.get_id() == edit_id {
