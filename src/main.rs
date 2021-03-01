@@ -195,6 +195,7 @@ fn clean(todo_file_path: &str, id_file: &str) {
         return;
     }
 
+    todos.sort();
     let mut new_id: usize = 0;
     for todo in todos.iter_mut() {
         todo.set_id(new_id);
