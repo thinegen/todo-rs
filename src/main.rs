@@ -54,7 +54,7 @@ fn list_all_todos(args: Vec<String>, show_done: bool, todo_file_path: &str) {
 
     let mut search_string = String::from("");
     if args.len() > 2 {
-        search_string = args[2].clone();
+        search_string = args[2..].join(" ");
     }
 
     let mut tw = TabWriter::new(std::io::stdout()).padding(2);
